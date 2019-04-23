@@ -494,10 +494,10 @@ def CoNLLdata4classifier(dataset, processing_word, processing_tag):
 
             for i, word in enumerate(raw_words):
 
-                if i<ne_start or i>=ne_end:
+                if (i<ne_start and i>=ne_start-30) or (i>=ne_end and i<ne_end+30):
                     words.append(processing_word(word))
                     masks.append(False)
-                else:
+                elif i>=ne_start and i<ne_end:
                     if i==ne_start:
                         entity = raw_words[i]
                     else:
@@ -507,6 +507,8 @@ def CoNLLdata4classifier(dataset, processing_word, processing_tag):
                         words.append(processing_word(entity))
 
                         masks.append(True)
+                else:
+                    pass
             data.append((words, tags, masks))
             words, tags, masks = [], None, []
     return data
