@@ -479,7 +479,7 @@ def get_chunks(seq, tags):
 
     return chunks
 
-def CoNLLdata4classifier(dataset, processing_word=None, processing_tag=None):
+def CoNLLdata4classifier(dataset, processing_word, processing_tag):
     '''
     transit CoNLLdata into classifier style, (words,tags,masks)
     :param datasets:
