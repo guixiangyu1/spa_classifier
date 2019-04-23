@@ -533,16 +533,36 @@ def get_chunks_from_tags(tags):
             chunk_type, chunk_start = None, None
 
         # End of a chunk + start of a chunk!
-        elif tok != 'O':
+        elif tok == 'O' and chunk_type is None:
+            pass
+        elif tok.startswith('B') and chunk_type is not None:
             tok_chunk_class, tok_chunk_type = tok.split('-')
-            if chunk_type is None:
-                chunk_type, chunk_start = tok_chunk_type, i
-            elif tok_chunk_type != chunk_type or tok_chunk_class == "B":
+            chunk = (chunk_type, chunk_start, i)
+            chunks.append(chunk)
+            chunk_type, chunk_start = tok_chunk_type, i
+        elif tok.startswith('B') and chunk_type is None:
+            tok_chunk_class, tok_chunk_type = tok.split('-')
+            chunk_type, chunk_start = tok_chunk_type, i
+        elif tok.startswith('I') and chunk_type is not None:
+            tok_chunk_class, tok_chunk_type = tok.split('-')
+            if tok_chunk_type!=chunk_type:
                 chunk = (chunk_type, chunk_start, i)
                 chunks.append(chunk)
-                chunk_type, chunk_start = tok_chunk_type, i
-        else:
+                chunk_type, chunk_start = None, None
+            else:
+                pass
+        elif tok.startswith('I') and chunk_type is None:
             pass
+        # elif tok != 'O':
+        #     tok_chunk_class, tok_chunk_type = tok.split('-')
+        #     if chunk_type is None:
+        #         chunk_type, chunk_start = tok_chunk_type, i
+        #     elif tok_chunk_type != chunk_type or tok_chunk_class == "B":
+        #         chunk = (chunk_type, chunk_start, i)
+        #         chunks.append(chunk)
+        #         chunk_type, chunk_start = tok_chunk_type, i
+        # else:
+        #     pass
 
     # end condition
     if chunk_type is not None:
