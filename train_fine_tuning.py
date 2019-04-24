@@ -9,12 +9,12 @@ def main():
     config = Config()
     config.nepochs          = 200
     config.dropout          = 0.5
-    config.batch_size       = 20
+    config.batch_size       = 50
     config.lr_method        = "adam"
-    config.lr               = 0.0005
+    config.lr               = 0.001
     config.lr_decay         = 0.98
     config.clip             = -2.0 # if negative, no clipping
-    config.nepoch_no_imprv  = 6
+    config.nepoch_no_imprv  = 4
 
     config.dir_model = config.dir_output + "model.finetuning.weights/"
     
