@@ -1,3 +1,5 @@
+import sys
+
 from model.data_utils import CoNLLDataset, get_processing_word, CoNLLdata4classifier
 from model.ner_model import NERModel
 from model.config import Config
@@ -16,8 +18,16 @@ def main():
     # create dataset
     processing_word = get_processing_word(lowercase=True)
 
-    test = CoNLLDataset(config.filename_test, processing_word)
+    if len(sys.argv) == 2:
+        if sys.argv[1] == 'test':
+            test = CoNLLDataset(config.filename_test, processing_word)
 
+        elif sys.argv[1] == 'dev':
+            test = CoNLLDataset(config.filename_dev, processing_word)
+
+    else:
+        assert len(sys.argv) == 1
+        test = CoNLLDataset(config.filename_test, processing_word)
 
     test4cl = CoNLLdata4classifier(test, processing_word=config.processing_word,
                                    processing_tag=config.processing_tag)
