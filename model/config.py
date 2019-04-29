@@ -88,8 +88,8 @@ class Config():
     # training
     train_embeddings = False
     nepochs          = 200
-    dropout          = 0.3
-    batch_size       = 20
+    dropout          = 0.5
+    batch_size       = 50
     lr_method        = "adam"
     lr               = 0.001
     lr_decay         = 1.0
@@ -103,4 +103,4 @@ class Config():
 
     # NOTE: if both chars and crf, only 1.6x slower on GPU
     use_crf = False # if crf, training is 1.7x slower on CPU
-    use_chars = True # if char embedding, training is 3.5x slower on CPU
+    use_chars = False # if char embedding, training is 3.5x slower on CPU
